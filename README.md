@@ -104,7 +104,8 @@ uvx pre-commit run --all-files
 git add -A
 uvx pre-commit run --all-files
 
-uv run ruff check --config ruff.strict.toml --fix .
+uv run ruff format --check .
+uv run ruff check .
 uv run pytest --cov=src --cov-report=term-missing
 
 uv run deptry .
