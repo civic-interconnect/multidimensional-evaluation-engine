@@ -12,7 +12,8 @@ and this project adheres to **[Semantic Versioning](https://semver.org/spec/v2.0
 ## [0.1.1] - 2026-03-27
 
 ### Fixed
-- Expose package version in multidimensional_evaluation_engine/__init__.py
+
+- Expose package version in multidimensional_evaluation_engine/**init**.py
 
 ---
 
@@ -53,6 +54,6 @@ git tag v0.1.1 -m "0.1.1"
 git push origin v0.1.1
 ```
 
-[Unreleased]: https://github.com/denisecase/multidimensional-evaluation-engine/compare/v0.1.1...HEAD
-[0.1.1]: https://github.com/denisecase/multidimensional-evaluation-engine/releases/tag/v0.1.1
-[0.1.0]: https://github.com/denisecase/multidimensional-evaluation-engine/releases/tag/v0.1.0
+[Unreleased]: https://github.com/civic-interconnect/multidimensional-evaluation-engine/compare/v0.1.1...HEAD
+[0.1.0]: https://github.com/civic-interconnect/multidimensional-evaluation-engine/releases/tag/v0.1.0
+[0.1.1]: https://github.com/civic-interconnect/multidimensional-evaluation-engine/releases/tag/v0.1.1
