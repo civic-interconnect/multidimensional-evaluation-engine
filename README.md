@@ -116,6 +116,13 @@ uv run zensical build
 git add -A
 git commit -m "update"
 git push -u origin main
+
+
+uv sync --reinstall
+
+uv run python -c "import multidimensional_evaluation_engine; print(multidimensional_evaluation_engine.__version__)"
+
+uv run python -c "from multidimensional_evaluation_engine.evaluation.evaluator import evaluate_candidate; print(evaluate_candidate)"
 ```
 
 </details>
