@@ -1,0 +1,57 @@
+# ============================================================
+# SE_MANIFEST.toml (Repository Intent, Scope, and Role)
+# ============================================================
+
+schema = "se-manifest-1"
+schema_url = "https://github.com/structural-explainability/spec-se/blob/main/manifests/se-manifest-1.md"
+
+[meta]
+framework = "Structural Explainability"
+framework_url = "https://github.com/structural-explainability"
+description = "Declarative description of repository intent, scope, and role."
+purpose = "To make explicit the boundaries, responsibilities, and expectations of this multidimensional evaluation engine."
+
+[repo]
+name = "multidimensional_evaluation_engine"
+kind = "application"
+status = "exploratory"
+since = "2026"
+summary = "Domain-neutral engine for multidimensional evaluation under configurable policy assumptions."
+
+[layer]
+space = "SE"
+role = "evaluation-engine"
+
+[depends]
+required = []
+optional = ["datafun-toolkit"]
+
+[provides]
+artifacts = [
+  "Python package",
+  "Documentation",
+  "Policy configuration examples",
+  "Candidate dataset examples",
+]
+
+[scope]
+includes = [
+  "evaluation of candidate designs under configurable policy assumptions",
+  "explicit modeling of tradeoffs across multiple dimensions",
+  "transparent scoring via weighted dimensions and scales",
+  "interpretation of scores into qualitative levels",
+]
+
+excludes = [
+  "normative policy recommendations or prescriptions",
+  "legal or regulatory compliance determinations",
+  "causal claims about real-world outcomes",
+  "empirical validation of effectiveness",
+  "domain-specific explorer interfaces",
+  "identity or persistence regime definitions",
+  "interpretation-boundary enforcement",
+]
+
+[citation]
+cff = "CITATION.cff"
+preferred = "software"

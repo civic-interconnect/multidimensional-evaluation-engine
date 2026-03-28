@@ -1,0 +1,100 @@
+{
+  "editor.formatOnSave": false,
+
+  "files.exclude": {
+    "**/__pycache__": true,
+    "**/.git": true,
+    "**/.DS_Store": true,
+    "**/node_modules": true,
+    "**/bower_components": true,
+    "**/site": true,
+    "**/venv": true,
+    "**/.venv": true,
+    "**/.mypy_cache": true,
+    "**/.pytest_cache": true,
+    "**/.ruff_cache": true,
+    "**/.coverage": true
+  },
+
+  "files.watcherExclude": {
+    "**/__pycache__/**": true,
+    "**/.git/**": true,
+    "**/node_modules/**": true,
+    "**/site/**": true,
+    "**/venv/**": true,
+    "**/.venv/**": true,
+    "**/env/**": true,
+    "**/.mypy_cache/**": true,
+    "**/.pytest_cache/**": true,
+    "**/.ruff_cache/**": true
+  },
+
+  "search.exclude": {
+    "**/__pycache__": true,
+    "**/.git": true,
+    "**/node_modules": true,
+    "**/site": true,
+    "**/venv": true,
+    "**/.venv": true
+  },
+
+  "python.analysis.typeCheckingMode": "basic",
+  "python.analysis.indexing": false,
+  "python.analysis.autoImportCompletions": false,
+  "python.analysis.diagnosticSeverityOverrides": {
+    "reportMissingTypeStubs": "none"
+  },
+  "python.analysis.exclude": [
+    "**/data/**",
+    "**/artifacts/**",
+    "**/.venv/**",
+    "**/__pycache__/**",
+    "**/build/**",
+    "**/dist/**",
+    "**/venv/**",
+    "**/.*",
+    "**/.mypy_cache/**",
+    "**/.pytest_cache/**",
+    "**/.ruff_cache/**",
+    "**/.cache/**",
+    "**/.git/**",
+    "**/.github/**",
+    "**/.vscode/**",
+    "**/node_modules/**"
+  ],
+
+  "git.autorefresh": false,
+  "git.decorations.enabled": false,
+
+  "[python]": {
+    "editor.defaultFormatter": "charliermarsh.ruff"
+  },
+  "[json]": {
+    "editor.defaultFormatter": "vscode.json-language-features"
+  },
+  "[jsonc]": {
+    "editor.defaultFormatter": "vscode.json-language-features"
+  },
+  "[markdown]": {
+    "editor.defaultFormatter": "yzhang.markdown-all-in-one"
+  },
+  "[yaml]": {
+    "editor.defaultFormatter": "redhat.vscode-yaml"
+  },
+  "[yml]": {
+    "editor.defaultFormatter": "redhat.vscode-yaml"
+  },
+  "[toml]": {
+    "editor.defaultFormatter": "tamasfe.even-better-toml"
+  },
+  "[github-actions-workflow]": {
+    "editor.defaultFormatter": "redhat.vscode-yaml"
+  },
+
+  "yaml.schemas": {
+    "https://json.schemastore.org/github-workflow.json": [
+      ".github/workflows/*.yml",
+      ".github/workflows/*.yaml"
+    ]
+  }
+}

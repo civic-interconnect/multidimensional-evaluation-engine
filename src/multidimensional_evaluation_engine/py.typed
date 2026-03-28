@@ -1,0 +1,22 @@
+# FILE: src/datafun_toolkit/py.typed
+
+# REQ.TYPING:
+#   Mark this package as providing inline type hints (PEP 561).
+
+# WHY.TYPING:
+#   Type checkers (e.g., Pyright, Mypy) only trust type hints in installed
+#   packages if this marker file is present.
+
+# OBS.TYPING:
+#   - This file is required by PEP 561.
+#   - The filename MUST be exactly "py.typed".
+#   - This is a marker file, not Python code.
+#   - The file may be empty; comments are allowed.
+
+# REQ.LOCATION:
+#   Place this file in the top-level package directory
+#   (e.g., src/datafun_toolkit/).
+
+# WHY.LOCATION:
+#   This tells type checkers that ALL modules in this package
+#   should be treated as typed.

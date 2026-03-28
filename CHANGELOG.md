@@ -1,0 +1,50 @@
+# Changelog
+
+All notable changes to this project will be documented in this file.
+
+The format is based on **[Keep a Changelog](https://keepachangelog.com/en/1.1.0/)**
+and this project adheres to **[Semantic Versioning](https://semver.org/spec/v2.0.0.html)**.
+
+## [Unreleased]
+
+---
+
+## [0.1.0] - 2026-03-27
+
+### Added
+
+- Initial release of multidimensional evaluation engine
+- Core domain models (Candidate, CandidateResult)
+- Policy model (scales, weights, interpretation)
+- CSV and TOML loaders
+- Evaluation logic for weighted scoring
+- Plain-text reporting utilities
+- Documentation site scaffolding (Zensical)
+- CI/CD: GitHub Actions for validation and documentation
+- Packaging configuration
+
+---
+
+## Notes on versioning and releases
+
+- We use **SemVer**:
+  - **MAJOR** – breaking schema/OpenAPI changes
+  - **MINOR** – backward-compatible additions
+  - **PATCH** – clarifications, docs, tooling
+- Versions are driven by git tags via `setuptools_scm`. Tag `vX.Y.Z` to release.
+- Docs are deployed per version tag and aliased to **latest**.
+
+### Example commands
+
+```shell
+# if needed
+git tag -d v0.1.0
+git push origin :refs/tags/v0.1.0
+
+# tag release
+git tag v0.1.0 -m "0.1.0"
+git push origin v0.1.0
+```
+
+[Unreleased]: https://github.com/denisecase/multidimensional-evaluation-engine/compare/v0.1.0...HEAD
+[0.1.0]: https://github.com/denisecase/multidimensional-evaluation-engine/releases/tag/v0.1.0

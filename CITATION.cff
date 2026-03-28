@@ -1,0 +1,45 @@
+# ============================================================
+# CITATION.cff (How to cite this project)
+# ============================================================
+
+# REQ.UNIVERSAL: Professional open projects SHOULD include CITATION.cff.
+# WHY: Support correct citation and attribution.
+# ALT: Internal or private repositories may omit citation metadata.
+# CUSTOM: Update author, repository, license, and keyword fields as needed.
+# USAGE: See https://citation-file-format.github.io/ for details.
+
+cff-version: "1.2.0"
+type: software
+
+title: multidimensional_evaluation_engine
+date-released: "2026-03-26"
+
+authors:
+  - family-names: Case
+    given-names: Denise M.
+    orcid: "https://orcid.org/0000-0001-6165-7389"
+    affiliation: "Northwest Missouri State University, USA"
+
+repository-code: "https://github.com/civic-interconnect/multidimensional_evaluation_engine"
+url: "https://github.com/civic-interconnect/multidimensional_evaluation_engine"
+license: MIT
+
+abstract: |
+  A engine for exploring approaches
+  under explicit, configurable assumptions and policy constraints.
+  The system makes tradeoffs across minor protection, privacy,
+  surveillance risk, and implementation complexity visible
+  and inspectable across alternative designs.
+
+keywords:
+  - policy modeling
+  - decision support
+  - candidate analysis
+  - civic technology
+  - reproducible workflows
+  - python
+  - uv
+  - ruff
+  - zensical
+
+message: "If using this project, please cite it as described in this file."

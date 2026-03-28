@@ -1,0 +1,137 @@
+title = "Age Verification Explorer Policy"
+version = "2026-03-27"
+
+[meta]
+domain = "age_verification"
+mode = "candidate_analysis"
+default_result_style = "profile"
+
+[labels]
+minor_protection = "Minor Protection"
+privacy_risk = "Privacy Risk"
+surveillance_risk = "Surveillance Risk"
+implementation_complexity = "Implementation Complexity"
+
+[dimension_labels]
+assurance_level = "Assurance Level"
+privacy_exposure = "Privacy Exposure"
+data_retention = "Data Retention"
+centralization = "Centralization"
+user_burden = "User Burden"
+reusability = "Reusability"
+
+[scales.assurance_level]
+none = 0
+low = 1
+medium = 2
+high = 3
+
+[scales.privacy_exposure]
+none = 0
+minimal = 1
+moderate = 2
+high = 3
+
+[scales.data_retention]
+none = 0
+session = 1
+temporary = 2
+persistent = 3
+
+[scales.centralization]
+local = 0
+platform = 1
+third_party = 2
+government = 3
+
+[scales.user_burden]
+low = 0
+medium = 1
+high = 2
+
+[scales.reusability]
+none = 0
+single_platform = 1
+multi_platform = 2
+
+[weights.minor_protection]
+assurance_level = 0.55
+data_retention = 0.05
+centralization = 0.10
+user_burden = -0.10
+reusability = 0.10
+privacy_exposure = 0.10
+
+[weights.privacy_risk]
+privacy_exposure = 0.45
+data_retention = 0.25
+centralization = 0.20
+reusability = 0.10
+
+[weights.surveillance_risk]
+centralization = 0.45
+data_retention = 0.25
+privacy_exposure = 0.20
+reusability = 0.10
+
+[weights.implementation_complexity]
+centralization = 0.25
+assurance_level = 0.20
+data_retention = 0.15
+reusability = 0.15
+user_burden = 0.25
+
+[interpretation]
+low_max = 0.99
+medium_max = 1.99
+high_max = 99.0
+
+[[patterns]]
+id = "self_declaration"
+label = "Self Declaration"
+summary = "User states age without external verification."
+
+[[patterns]]
+id = "document_upload"
+label = "Document Upload"
+summary = "User uploads identity document directly to the platform."
+
+[[patterns]]
+id = "third_party_token"
+label = "Third-Party Age Token"
+summary = "A separate verifier confirms an age threshold and shares only a limited token."
+
+[[patterns]]
+id = "device_estimation"
+label = "Device-Based Estimation"
+summary = "Age is estimated on-device or through device-mediated analysis."
+
+[[patterns]]
+id = "government_id"
+label = "Government Digital ID"
+summary = "Verification is tied to a government-backed identity system."
+
+[[rules]]
+when = "assurance_level == 'high' and privacy_exposure == 'high' and data_retention == 'persistent'"
+message = "Strong verification is paired with high long-term privacy exposure."
+severity = "warning"
+
+[[rules]]
+when = "centralization == 'government' and data_retention != 'none'"
+message = "Government-linked verification plus retained data increases surveillance concern."
+severity = "warning"
+
+[[rules]]
+when = "assurance_level == 'none'"
+message = "Protection for minors is weak because the design lacks meaningful verification."
+severity = "info"
+
+[[rules]]
+when = "privacy_exposure == 'minimal' and assurance_level == 'medium' and centralization == 'third_party'"
+message = "This is a promising middle-ground pattern: limited disclosure with moderate assurance."
+severity = "positive"
+
+[[rules]]
+when = "user_burden == 'high'"
+message = "High user burden may reduce usability and increase exclusion."
+severity = "warning"

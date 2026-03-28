@@ -1,0 +1,209 @@
+# ============================================================
+# pyproject.toml (Python, Zensical, PyPi project configuration)
+# ============================================================
+# VARIANT: python-zensical-pypi
+
+# REQ.PYTHON: Python projects MUST include pyproject.toml as the single source of truth.
+# WHY: Centralizes project configuration.
+[project]
+name = "multidimensional-evaluation-engine" # Package distribution name (lowercase and dashes).
+description = "Core engine for multidimensional evaluation under explicit policy assumptions."
+readme = "README.md"
+requires-python = ">=3.14"
+dynamic = ["version"]  # Using setuptools_scm
+license = { text = "MIT" }
+authors = [
+  { name = "Denise Case" }
+]
+classifiers = [
+  "Development Status :: 4 - Beta",
+  "Intended Audience :: Developers",
+  "Intended Audience :: Science/Research",
+  "Natural Language :: English",
+  "Operating System :: OS Independent",
+  "Programming Language :: Python :: 3",
+  "Programming Language :: Python :: 3 :: Only",
+  "Programming Language :: Python :: 3.14",
+  "Topic :: Scientific/Engineering :: Information Analysis",
+  "Typing :: Typed",
+]
+keywords = [
+  "multidimensional evaluation",
+  "policy modeling",
+  "tradeoff analysis",
+  "decision support",
+  "structured evaluation",
+]
+dependencies = [
+]
+
+[project.optional-dependencies]
+dev = [
+    # packaging required by validate-pyproject (below).
+    "bandit>=1.9.4",
+    "deptry>=0.24.0",
+    "packaging>=26.0",
+    "pre-commit>=4.5.1",
+    "pytest>=9.0.2",
+    "pytest-cov>=7.0.0",
+    "pyright>=1.1.408",
+    "ruff>=0.14.13",
+    "validate-pyproject>=0.24.1",
+]
+docs = [
+    "mkdocstrings[python]",
+    "zensical",
+]
+
+[project.urls]
+# WHY: Canonical project links used by tooling and documentation.
+# CUSTOM: Replace with your repo values.
+Documentation = "https://civic-interconnect.github.io/multidimensional-evaluation-engine/"
+Issues = "https://github.com/civic-interconnect/multidimensional-evaluation-engine/issues"
+Repository = "https://github.com/civic-interconnect/multidimensional-evaluation-engine"
+
+# === Deptry
+
+[tool.deptry.per_rule_ignores]
+DEP002 = [
+    # === DEV TOOLING (not required at runtime) ===
+    "bandit",
+    "deptry",
+    "packaging",
+    "pre-commit",
+    "pytest",
+    "pytest-cov",
+    "pyright",
+    "ruff",
+    "validate-pyproject",
+
+    # === DOCUMENTATION TOOLING (not required at runtime) ===
+    "mkdocstrings",         # WHY: Needed for [python] extra (above).
+    "zensical",             # WHY: Zensical is used for AI-assisted documentation.
+]
+
+# === Pyright
+
+[tool.pyright]
+# WHY: Static type checking for early error detection and clearer interfaces.
+typeCheckingMode = "strict"
+include = ["src"]
+extraPaths = ["src"]
+pythonVersion = "3.14"
+reportMissingImports = "warning"
+reportPrivateUsage = "none"
+useLibraryCodeForTypes = false
+venv = ".venv"
+venvPath = "."
+
+# === Pytest
+
+[tool.pytest.ini_options]
+# WHY: Ensure tests are discoverable and coverage is visible.
+minversion = "7.0"
+testpaths = ["tests"]
+addopts = "-q --cov=multidimensional_evaluation_engine --cov-report=term-missing"
+
+# === RUFF (PYTHON FORMATTING AND LINTING) ===
+
+[tool.ruff]
+# WHY: Ruff provides fast linting and formatting with deterministic output.
+exclude = [
+    ".eggs",
+    "*.egg-info",
+    ".ruff_cache",
+    ".venv",
+    "__pycache__",
+    "build",
+    "dist",
+    "site",
+]
+fix = true
+line-length = 88 # WHY: PEP 8 standard line length, wrap when possible.
+preview = false # WHY: Stable features only; avoid preview features.
+target-version = "py313" # WHY: Match latest supported Python version.
+unsafe-fixes = false # WHY: Avoid potentially unsafe automatic fixes.
+
+[tool.ruff.format]
+# WHY: Formatter choices should be stable to keep diffs small and predictable.
+indent-style = "space" # See also .gitattributes for indent style.
+line-ending = "auto" # Match existing files and let .gitattributes handle it.
+quote-style = "preserve" # Preserve existing quote styles to minimize churn.
+
+[tool.ruff.lint]
+# WHY: Professional baseline rules without requiring advanced refactors.
+select = [
+    "E",   # Basic syntax and structural correctness
+    "F",   # Undefined names and unused imports
+    "W",   # Warnings that catch easy issues early
+    "I",   # Deterministic import ordering
+    "UP",  # Modern Python constructs
+    "B",   # Common bug patterns
+    "C4",  # Comprehension correctness and clarity
+    "SIM", # Simplify obvious complexity
+    "RET", # Return practices
+    "PTH", # Prefer pathlib patterns
+
+    "D", # Docstring standards (see convention below)
+    "S", # Security checks (with deliberate exceptions)
+]
+ignore = [
+    "E501", # Line length handled by formatter
+    "D203", # Conflicts with D211
+    "D212", # Forces multi-line docstring summary to start on same line
+    "D213", # Choose one docstring summary placement style
+    "D413", # Reduce section-format noise unless required
+    "S101", # Allow assert (tests + internal invariants)
+    "W291", # Trailing whitespace - handled by formatter
+    "W292", # No newline at end of file - handled by formatter
+    "W293", # Blank lines contain whitespace - handled by formatter
+]
+
+[tool.ruff.lint.isort]
+# WHY: Ordering imports helps keep code diffs (differences) readable.
+force-sort-within-sections = true # WHY: Avoid unnecessary churn by only sorting within sections.
+
+# === PER-FILE IGNORES (DEPENDS ON DOCSTRING POLICY) ===
+
+[tool.ruff.lint.per-file-ignores]
+# WHY: Narrow exceptions belong here; do not weaken global rules broadly.
+"src/**/__init__.py" = ["D104", "F401"]
+"src/**/_version.py" = ["ALL"]          # WHY: Auto-generated by setuptools_scm; ignore all issues.
+"tests/**/*.py" = ["D", "S101"]
+"src/**/py.typed" = ["ALL"]             # WHY: py.typed files are not valid Python syntax.
+
+# === CHOOSE PROJECT DOC STYLE ===
+
+[tool.ruff.lint.pydocstyle]
+# WHY: Choose one docstring convention project-wide to avoid mixed styles and churn.
+# REQ: Google style is the default policy for this repository.
+convention = "google" # ALT: "numpy" (choose one convention project-wide)
+
+# === BUILD SYSTEM ===
+
+[build-system]
+# WHY: Build system needed to create distributable packages.
+# CUSTOM: Using scm for dynamic version management.
+requires = [
+    "setuptools>=82.0.0",
+    "setuptools_scm>=9.2.2",
+]
+build-backend = "setuptools.build_meta"
+
+[tool.setuptools]
+include-package-data = true # WHY: Ensure non-code files are included in distributions.
+# REQ.PACKAGES: Package discovery MUST be rooted at src/.
+package-dir = { "" = "src" }
+
+[tool.setuptools.package-data]
+"multidimensional_evaluation_engine" = ["py.typed", "*.yaml"]
+
+[tool.setuptools.packages.find]
+# WHY: Explicitly define package discovery location.
+where = ["src"]
+
+[tool.setuptools_scm]
+tag_regex = "^v(?P<version>\\d+\\.\\d+\\.\\d+)$" # WHY: Match tags like v1.2.3 for versioning.
+fallback_version = "0.0.1"
+local_scheme = "no-local-version"
+version_file = "src/multidimensional_evaluation_engine/_version.py"

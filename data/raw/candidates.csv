@@ -1,0 +1,6 @@
+candidate_id,candidate_name,assurance_level,privacy_exposure,data_retention,centralization,user_burden,reusability,notes
+c_001,Self Declaration,none,none,none,local,low,none,Simple but weak
+c_002,Document Upload,high,high,persistent,platform,high,single_platform,Strong assurance but intrusive
+c_003,Third-Party Age Token,medium,minimal,session,third_party,medium,multi_platform,Balanced token model
+c_004,Device-Based Estimation,medium,minimal,none,local,low,none,Lower disclosure if truly local
+c_005,Government Digital ID,high,moderate,persistent,government,medium,multi_platform,High assurance with serious surveillance concerns
