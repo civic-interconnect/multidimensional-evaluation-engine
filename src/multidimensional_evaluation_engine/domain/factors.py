@@ -1,11 +1,10 @@
 """domain/factors.py: Core factor and recorded-value models."""
 
-
 from dataclasses import dataclass
-from enum import Enum
+from enum import StrEnum
 
 
-class FactorForm(str, Enum):
+class FactorForm(StrEnum):
     """Structural form of a factor value."""
 
     BINARY = "binary"

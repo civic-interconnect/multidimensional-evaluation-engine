@@ -1,6 +1,5 @@
 """tests/test_tables.py: Unit tests for plain-text table reporting."""
 
-
 from multidimensional_evaluation_engine.reporting.tables import format_results
 from tests.builders import make_candidate, make_result
 

@@ -1,6 +1,5 @@
 """tests/test_load_policy.py: Unit tests for load_policy."""
 
-
 from pathlib import Path
 import tomllib
 
@@ -253,5 +252,7 @@ categorical_scores = { slow = 1, fast = 3 }
 
 def test_raises_key_error_when_all_required_sections_missing(tmp_path: Path) -> None:
     path = write_toml(tmp_path, "policy.toml", '[metadata]\nauthor = "x"\n')
-    with pytest.raises(KeyError, match="constraint_rules|factor_specs|interpretation|score_rules"):
+    with pytest.raises(
+        KeyError, match="constraint_rules|factor_specs|interpretation|score_rules"
+    ):
         load_policy(path)

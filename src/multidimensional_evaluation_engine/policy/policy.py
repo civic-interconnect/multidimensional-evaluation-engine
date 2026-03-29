@@ -2,20 +2,20 @@
 
 from collections.abc import Mapping
 from dataclasses import dataclass, field
-from enum import Enum
+from enum import StrEnum
 from typing import Any, cast
 
 from ..domain.factors import FactorForm, FactorSpec
 
 
-class EvaluationRole(str, Enum):
+class EvaluationRole(StrEnum):
     """Role a factor plays in evaluation."""
 
     HARD_CONSTRAINT = "hard_constraint"
     SCORED_FINDING = "scored_finding"
 
 
-class Comparator(str, Enum):
+class Comparator(StrEnum):
     """Comparison operator for threshold rules."""
 
     LT = "lt"

@@ -99,35 +99,47 @@ code .
 ### In a VS Code terminal
 
 ```shell
+# Set Up the Environment
 uv self update
 uv python pin 3.14
 uv sync --extra dev --extra docs --upgrade
-
 uvx pre-commit install
+
+# Local format + lint
+uv run ruff format --check .
+uv run ruff check .
+
+# Pre-commit (enforce repo rules)
 git add -A
 uvx pre-commit run --all-files
 # repeat if changes were made
 git add -A
 uvx pre-commit run --all-files
 
-uv run ruff format --check .
-uv run ruff check .
-
+# Static + security + dependency checks
 uv run validate-pyproject pyproject.toml
 uv run deptry .
 uv run bandit -c pyproject.toml -r src
+
+# Tests (after static checks pass)
 uv run pytest --cov=src --cov-report=term-missing
+
+# Docs build (after everything passes)
 uv run zensical build
 
+# Commit and push
 git add -A
 git commit -m "update"
 git push -u origin main
 
+# Reinstall + sanity checks (post-push validation)
 uv sync --reinstall
 
 uv run python -c "import multidimensional_evaluation_engine; print(multidimensional_evaluation_engine.__version__)"
-
 uv run python -c "from multidimensional_evaluation_engine.evaluation.evaluator import evaluate_candidate; print(evaluate_candidate)"
+
+# Build artifacts (verify release)
+uv build
 ```
 
 </details>

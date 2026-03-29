@@ -1,6 +1,5 @@
 """evaluation/evaluator.py: Evaluate candidates against policy."""
 
-
 from ..domain.candidates import Candidate
 from ..domain.factors import FactorValue
 from ..domain.results import CandidateResult

@@ -1,6 +1,5 @@
 """io/load_policy.py: Load policy from TOML."""
 
-
 from pathlib import Path
 import tomllib
 

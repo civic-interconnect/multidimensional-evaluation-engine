@@ -1,6 +1,5 @@
 """tests/test_load_candidates.py: Unit tests for load_candidates."""
 
-
 from pathlib import Path
 
 import pytest

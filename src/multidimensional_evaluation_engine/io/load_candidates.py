@@ -54,7 +54,9 @@ def load_candidates(
             missing_str = ", ".join(sorted(missing))
             raise ValueError(f"CSV file is missing required columns: {missing_str}")
 
-        factor_headers = [header for header in headers if header not in _RESERVED_COLUMNS]
+        factor_headers = [
+            header for header in headers if header not in _RESERVED_COLUMNS
+        ]
 
         unknown_headers = [
             header for header in factor_headers if header not in factor_specs_by_id

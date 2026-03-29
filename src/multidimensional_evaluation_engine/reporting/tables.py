@@ -1,6 +1,5 @@
 """reporting/tables.py: Simple text-table reporting for scored results."""
 
-
 from ..domain.results import CandidateResult
 
 

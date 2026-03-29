@@ -324,10 +324,7 @@ def test_no_interpretation_key_when_no_threshold_is_satisfied() -> None:
     result = evaluate_candidate(candidate, policy)
 
     assert result.scores["total"] == 1.0
-    assert all(
-        not label.startswith("interpretation:")
-        for label in result.scores
-    )
+    assert all(not label.startswith("interpretation:") for label in result.scores)
 
 
 def test_constraint_gt_comparator_works_for_numeric_values() -> None:
