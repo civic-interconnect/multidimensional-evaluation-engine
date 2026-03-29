@@ -1,25 +1,36 @@
 # Concepts
 
-This engine evaluates alternatives by separating inputs, configuration, and computation.
+This engine evaluates alternatives by separating recorded inputs, policy configuration, and computation.
 
 ## Candidate
 
 A candidate is an entity being evaluated.
 
 - identified by `candidate_id` and `candidate_name`
-- described by **dimension values**
-- dimensions are categorical (strings)
+- described by **factor values**
+- factor values are typed (binary, numeric, categorical)
 
-## Dimension
+## Factor
 
-A dimension is a named attribute used in evaluation.
+A factor is a named input variable used in evaluation.
 
-Examples (domain-specific, not part of the engine):
-- assurance_level
-- privacy_exposure
-- centralization
+Each factor has:
 
-The engine treats all dimensions generically.
+- a **structural form** (`FactorForm`)
+  - binary
+  - numeric
+  - categorical
+- an optional description and allowed values
+
+Factors define the structure of inputs, independent of any scoring.
+
+## Factor Value
+
+A factor value is a recorded observation for a candidate.
+
+- typed according to the factor’s form
+- may include supporting evidence (optional)
+- carries no scoring semantics
 
 ## Policy
 
@@ -27,46 +38,58 @@ A policy defines how evaluation is performed.
 
 It includes:
 
-- **scales**: map dimension values to numeric scores
-- **weights**: define how dimensions contribute to each label
-- **interpretation**: thresholds for mapping scores to levels
+- **factor_specs**: structural definitions of factors
+- **constraint_rules**: admissibility conditions (pass/fail)
+- **score_rules**: mappings from factor values to numeric scores
+- **interpretation**: thresholds for mapping totals to qualitative levels
 
-Optional:
-- patterns (descriptive)
-- rules (annotations)
+Policies introduce all scoring and decision semantics.
 
-## Label
+## Constraint Rule
 
-A label is an aggregate outcome computed from weighted dimensions.
+A constraint rule defines a required condition.
 
-Examples:
-- minor_protection
-- privacy_risk
+- evaluated before or alongside scoring
+- produces a binary admissibility outcome
+- does not contribute directly to score magnitude
 
-Labels are defined entirely by the policy.
+## Score Rule
+
+A score rule maps a factor value to a numeric contribution.
+
+Supported forms:
+
+- categorical mappings
+- numeric bands
+- binary mappings
+
+Each rule has an associated weight.
 
 ## Evaluation
 
 Evaluation computes:
 
-- a numeric score per label
-- based on candidate values and policy weights
+- per-rule scores
+- a total aggregated score
+- an admissibility indicator
+- optional interpretation labels
 
-The engine performs no interpretation beyond numeric aggregation.
+The evaluator applies policy logic to candidate factor values.
 
 ## Result
 
 A result contains:
 
 - the candidate
-- computed scores
-- optional derived levels (e.g., "low", "medium", "high")
+- computed scores (including total and admissibility)
+- optional interpretation indicators (e.g., `interpretation:high`)
 
 ## Separation of Concerns
 
-- Candidates provide data
-- Policies define meaning
-- Evaluator performs computation
+- Candidates provide recorded values
+- Factors define input structure
+- Policies define scoring and constraints
+- Evaluator applies policy to candidates
 - Reporting presents results
 
-The engine itself is domain-neutral.
+The engine itself remains domain-neutral and pre-normative.

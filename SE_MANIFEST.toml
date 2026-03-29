@@ -16,7 +16,7 @@ name = "multidimensional_evaluation_engine"
 kind = "application"
 status = "exploratory"
 since = "2026"
-summary = "Domain-neutral engine for multidimensional evaluation under configurable policy assumptions."
+summary = "Domain-neutral engine for evaluating candidates using typed factors and policy-defined rules."
 
 [layer]
 space = "SE"
@@ -37,9 +37,11 @@ artifacts = [
 [scope]
 includes = [
   "evaluation of candidate designs under configurable policy assumptions",
-  "explicit modeling of tradeoffs across multiple dimensions",
-  "transparent scoring via weighted dimensions and scales",
-  "interpretation of scores into qualitative levels",
+  "representation of inputs as typed factors (binary, numeric, categorical)",
+  "application of constraint rules for admissibility determination",
+  "application of score rules for numeric evaluation",
+  "aggregation of rule-based scores into comparable outputs",
+  "derivation of interpretation indicators from policy-defined thresholds",
 ]
 
 excludes = [

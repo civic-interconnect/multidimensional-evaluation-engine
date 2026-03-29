@@ -1,104 +1,96 @@
-"""tests/test_tables.py: Unit tests for format_results."""
+"""tests/test_tables.py: Unit tests for plain-text table reporting."""
 
-from multidimensional_evaluation_engine.domain.candidates import Candidate
-from multidimensional_evaluation_engine.domain.results import CandidateResult
+
 from multidimensional_evaluation_engine.reporting.tables import format_results
-
-# ---------------------------------------------------------------------------
-# Helpers
-# ---------------------------------------------------------------------------
+from tests.builders import make_candidate, make_result
 
 
-def _candidate(candidate_id: str = "c1", candidate_name: str = "Alpha") -> Candidate:
-    return Candidate(
-        candidate_id=candidate_id, candidate_name=candidate_name, dimensions={}
-    )
-
-
-def _result(
-    candidate: Candidate | None = None,
-    scores: dict[str, float] | None = None,
-    levels: dict[str, str] | None = None,
-) -> CandidateResult:
-    return CandidateResult(
-        candidate=candidate or _candidate(),
-        scores=scores or {"overall": 3.0},
-        levels=levels or {},
-    )
-
-
-# ---------------------------------------------------------------------------
-# Happy-path tests
-# ---------------------------------------------------------------------------
-
-
-def test_returns_string() -> None:
-    assert isinstance(format_results([_result()]), str)
-
-
-def test_empty_list_returns_empty_string() -> None:
+def test_returns_empty_string_for_empty_results() -> None:
+    """Formatting no results should return an empty string."""
     assert format_results([]) == ""
 
 
-def test_candidate_id_and_name_in_output() -> None:
-    output = format_results(
-        [_result(candidate=_candidate(candidate_id="c1", candidate_name="Alpha"))]
+def test_includes_candidate_header() -> None:
+    """Report should include candidate id and name."""
+    candidate = make_candidate(candidate_id="c1", candidate_name="Alpha")
+    result = make_result(candidate=candidate, scores={"total": 3.0})
+
+    text = format_results([result])
+
+    assert "c1 | Alpha" in text
+
+
+def test_formats_scores_with_two_decimal_places() -> None:
+    """Scores should be rendered with two decimal places."""
+    result = make_result(scores={"total": 3.0, "speed_score": 1.5})
+
+    text = format_results([result])
+
+    assert "  - total: 3.00" in text
+    assert "  - speed_score: 1.50" in text
+
+
+def test_sorts_score_labels_deterministically() -> None:
+    """Score labels should be rendered in sorted order."""
+    result = make_result(
+        scores={
+            "z_score": 2.0,
+            "a_score": 1.0,
+            "total": 3.0,
+        }
     )
-    assert "c1" in output
-    assert "Alpha" in output
+
+    text = format_results([result])
+    lines = text.splitlines()
+
+    a_index = lines.index("  - a_score: 1.00")
+    total_index = lines.index("  - total: 3.00")
+    z_index = lines.index("  - z_score: 2.00")
+
+    assert a_index < total_index < z_index
 
 
-def test_score_formatted_to_two_decimal_places() -> None:
-    assert "2.50" in format_results([_result(scores={"overall": 2.5})])
-
-
-def test_label_appears_in_output() -> None:
-    assert "quality" in format_results([_result(scores={"quality": 1.5})])
-
-
-def test_level_included_when_present() -> None:
-    assert "(mid)" in format_results(
-        [_result(scores={"overall": 2.0}, levels={"overall": "mid"})]
+def test_renders_interpretation_as_readable_line() -> None:
+    """Interpretation keys should be rendered as readable interpretation output."""
+    result = make_result(
+        scores={
+            "total": 4.0,
+            "interpretation:strong": 1.0,
+        }
     )
 
+    text = format_results([result])
 
-def test_level_omitted_when_absent() -> None:
-    assert "(" not in format_results([_result(scores={"overall": 2.0}, levels={})])
-
-
-def test_labels_sorted_deterministically() -> None:
-    output = format_results([_result(scores={"zebra": 1.0, "alpha": 2.0, "mid": 3.0})])
-    positions = [output.index(label) for label in ("alpha", "mid", "zebra")]
-    assert positions == sorted(positions)
+    assert "  - interpretation:strong: 1.00" not in text
+    assert "  * interpretation: strong" in text
 
 
-def test_multiple_candidates_all_appear() -> None:
-    results: list[CandidateResult] = [
-        _result(candidate=_candidate(candidate_id="c1", candidate_name="Alpha")),
-        _result(candidate=_candidate(candidate_id="c2", candidate_name="Beta")),
-    ]
-    output = format_results(results)
-    assert "c1" in output
-    assert "c2" in output
+def test_sorts_multiple_interpretations_deterministically() -> None:
+    """Multiple interpretations should be rendered in sorted order."""
+    result = make_result(
+        scores={
+            "total": 4.0,
+            "interpretation:strong": 1.0,
+            "interpretation:mid": 1.0,
+        }
+    )
+
+    text = format_results([result])
+
+    assert "  * interpretation: mid, strong" in text
 
 
-def test_trailing_whitespace_stripped() -> None:
-    output = format_results([_result()])
-    assert not output.endswith("\n")
-    assert not output.endswith(" ")
+def test_adds_blank_line_between_candidates() -> None:
+    """Multiple candidates should be separated by a blank line."""
+    result1 = make_result(
+        candidate=make_candidate(candidate_id="c1", candidate_name="Alpha"),
+        scores={"total": 3.0},
+    )
+    result2 = make_result(
+        candidate=make_candidate(candidate_id="c2", candidate_name="Beta"),
+        scores={"total": 2.0},
+    )
 
+    text = format_results([result1, result2])
 
-def test_single_candidate_no_trailing_blank_line() -> None:
-    assert not format_results([_result()]).endswith("\n")
-
-
-def test_multiple_candidates_separated_by_blank_line() -> None:
-    results: list[CandidateResult] = [
-        _result(candidate=_candidate(candidate_id="c1", candidate_name="Alpha")),
-        _result(candidate=_candidate(candidate_id="c2", candidate_name="Beta")),
-    ]
-    assert "\n\n" in format_results(results)
-
-
-def test_score_with_integer_value_formats_correctly() -> None:
-    assert "3.00" in format_results([_result(scores={"overall": 3.0})])
+    assert "c1 | Alpha\n  - total: 3.00\n\nc2 | Beta" in text

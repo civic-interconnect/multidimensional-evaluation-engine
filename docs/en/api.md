@@ -16,6 +16,7 @@
 ## Domain Models
 
 ::: multidimensional_evaluation_engine.domain.candidates
+::: multidimensional_evaluation_engine.domain.factors
 ::: multidimensional_evaluation_engine.domain.results
 
 ## Policy

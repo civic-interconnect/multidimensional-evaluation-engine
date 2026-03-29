@@ -1,13 +1,13 @@
 """reporting/tables.py: Simple text-table reporting for scored results."""
 
+
 from ..domain.results import CandidateResult
 
 
 def format_results(results: list[CandidateResult]) -> str:
     """Format evaluation results as a plain-text report.
 
-    Produces a deterministic, human-readable summary of scores and
-    optional qualitative levels for each candidate.
+    Produces a deterministic, human-readable summary of scores for each candidate.
 
     Args:
         results: List of candidate evaluation results.
@@ -20,15 +20,22 @@ def format_results(results: list[CandidateResult]) -> str:
     for r in results:
         lines.append(f"{r.candidate.candidate_id} | {r.candidate.candidate_name}")
 
-        # Deterministic ordering for stable output
-        for label in sorted(r.scores):
-            score = r.scores[label]
-            level = r.levels.get(label)
+        # Separate interpretation labels
+        interpretations = [
+            label.split(":", 1)[1]
+            for label in r.scores
+            if label.startswith("interpretation:")
+        ]
 
-            if level:
-                lines.append(f"  - {label}: {score:.2f} ({level})")
-            else:
-                lines.append(f"  - {label}: {score:.2f}")
+        # Deterministic ordering for stable output (excluding interpretation keys)
+        for label in sorted(r.scores):
+            if label.startswith("interpretation:"):
+                continue
+            score = r.scores[label]
+            lines.append(f"  - {label}: {score:.2f}")
+
+        if interpretations:
+            lines.append(f"  * interpretation: {', '.join(sorted(interpretations))}")
 
         lines.append("")
 

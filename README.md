@@ -19,8 +19,9 @@ The engine:
 
 - applies a configurable policy
 - evaluates candidate configurations
-- computes weighted scores across dimensions
-- interprets scores into qualitative levels
+- computes scores using rule-based mappings
+- evaluates constraint-based admissibility
+- derives interpretation indicators from score thresholds
 - supports structured comparison across alternative designs
 
 The system is designed to make assumptions explicit and results inspectable.
@@ -41,22 +42,27 @@ This project provides a reusable framework for multidimensional evaluation under
 It:
 
 - supports policy-driven evaluation across multiple domains
-- makes tradeoffs visible through configurable dimensions, scales, and weights
-- separates evaluation logic from domain-specific explorer interfaces
+- represents inputs as typed factors (binary, numeric, categorical)
+- applies constraint rules and score rules defined in policy
+- separates input structure, policy logic, and evaluation
 
-The goal is to provide a stable core that can support multiple exploratory systems built on a shared evaluation model.
+The goal is to provide a stable core that can support multiple
+exploratory systems built on a shared evaluation model.
 
 ## Contribution
 
-The contribution is the engine for structured multidimensional evaluation, not the specific values used in any given scenario.
+The contribution is the engine for structured multidimensional evaluation,
+not the specific values used in any given scenario.
 
-- Dimensions, scales, weights, and thresholds are configurable
+- Factors and their structure are explicitly defined
+- Scoring and constraints are policy-driven
 - Assumptions are explicit and inspectable
 - Results are comparative and scenario-dependent
 - The core logic is domain-neutral
 
 This project does not determine outcomes or recommend decisions.
-It provides a way to examine how different assumptions and constraints shape results.
+It provides a way to examine how different
+assumptions and constraints shape results.
 
 ## Working Files
 
@@ -67,9 +73,9 @@ Working files are found in these areas:
 
 ## Capabilities
 
-- Loads policy configuration structures
-- Evaluates candidate configurations across weighted dimensions
-- Computes score profiles and qualitative levels
+- Loads policy definitions (factor specs, constraint rules, score rules)
+- Evaluates candidates using typed factor values
+- Computes score profiles, admissibility, and interpretation indicators
 - Supports reusable integration into domain-specific explorer systems
 
 ## Command Reference
@@ -106,17 +112,16 @@ uvx pre-commit run --all-files
 
 uv run ruff format --check .
 uv run ruff check .
-uv run pytest --cov=src --cov-report=term-missing
 
+uv run validate-pyproject pyproject.toml
 uv run deptry .
 uv run bandit -c pyproject.toml -r src
-uv run validate-pyproject pyproject.toml
+uv run pytest --cov=src --cov-report=term-missing
 uv run zensical build
 
 git add -A
 git commit -m "update"
 git push -u origin main
-
 
 uv sync --reinstall
 

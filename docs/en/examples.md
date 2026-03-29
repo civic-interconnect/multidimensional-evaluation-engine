@@ -10,9 +10,11 @@ from multidimensional_evaluation_engine.io.load_policy import load_policy
 from multidimensional_evaluation_engine.evaluation.evaluator import evaluate_candidate
 from multidimensional_evaluation_engine.reporting.tables import format_results
 
-# Load inputs
-candidates = load_candidates(Path("candidates.csv"))
+# Load policy first (provides factor_specs)
 policy = load_policy(Path("policy.toml"))
+
+# Load candidates using factor_specs
+candidates = load_candidates(Path("candidates.csv"), policy.factor_specs)
 
 # Evaluate
 results = [evaluate_candidate(c, policy) for c in candidates]

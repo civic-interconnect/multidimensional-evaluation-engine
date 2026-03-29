@@ -1,16 +1,19 @@
 # multidimensional_evaluation_engine
 
-The **multidimensional_evaluation_engine** provides a structured framework for evaluating alternatives across multiple dimensions under configurable policy assumptions.
+The **multidimensional_evaluation_engine** provides a structured framework
+for evaluating alternatives using typed inputs and configurable policy rules.
 
 It includes components to:
 
-- load candidate data (CSV)
-- load policy configurations (TOML)
-- compute weighted scores across dimensions
-- interpret results into qualitative levels
+- load candidate data (CSV to typed factor values)
+- load policy configurations (TOML to factor specs, constraints, scoring rules)
+- evaluate candidates using constraint and scoring logic
+- compute aggregate scores and admissibility indicators
+- map results to qualitative interpretations
 - produce structured outputs for inspection and comparison
 
-The engine is domain-neutral and can be applied to governance, infrastructure, and system design scenarios where tradeoffs must be made explicit.
+The engine is domain-neutral and supports scenarios where tradeoffs
+must be made explicit without embedding domain-specific assumptions in the core.
 
 ## Installation
 
@@ -28,5 +31,6 @@ uv sync
 ## Documentation
 
 - API Reference
+- Concepts
 - Examples
 - Troubleshooting

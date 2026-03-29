@@ -25,21 +25,18 @@ url: "https://github.com/civic-interconnect/multidimensional_evaluation_engine"
 license: MIT
 
 abstract: |
-  A engine for exploring approaches
-  under explicit, configurable assumptions and policy constraints.
-  The system makes tradeoffs across minor protection, privacy,
-  surveillance risk, and implementation complexity visible
-  and inspectable across alternative designs.
+  A domain-neutral engine for evaluating candidate configurations
+  under explicit, configurable policy assumptions and constraints.
+  The system represents inputs as typed factors and applies
+  rule-based scoring and admissibility logic to make tradeoffs
+  visible and inspectable across alternative designs.
 
 keywords:
   - policy modeling
   - decision support
-  - candidate analysis
-  - civic technology
+  - candidate evaluation
+  - multidimensional analysis
   - reproducible workflows
   - python
-  - uv
-  - ruff
-  - zensical
 
 message: "If using this project, please cite it as described in this file."

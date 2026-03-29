@@ -1,5 +1,6 @@
 """io/load_policy.py: Load policy from TOML."""
 
+
 from pathlib import Path
 import tomllib
 
@@ -21,18 +22,24 @@ def load_policy(path: Path) -> Policy:
     Raises:
         FileNotFoundError: If the file does not exist.
         tomllib.TOMLDecodeError: If TOML parsing fails.
-        KeyError: If required policy fields are missing.
+        KeyError: If required policy sections are missing.
+        TypeError: If policy content has the wrong structural type.
+        ValueError: If policy content fails model validation.
     """
     logger.info(f"Loading policy from: {path}")
 
     if not path.exists():
         raise FileNotFoundError(f"Policy file not found: {path}")
 
-    with path.open("rb") as f:
-        data = tomllib.load(f)
+    with path.open("rb") as file:
+        data = tomllib.load(file)
 
-    # Minimal structural validation (core-level only)
-    required = {"scales", "weights", "interpretation"}
+    required = {
+        "factor_specs",
+        "constraint_rules",
+        "score_rules",
+        "interpretation",
+    }
     missing = required - set(data)
     if missing:
         missing_str = ", ".join(sorted(missing))
