@@ -56,6 +56,8 @@ def evaluate_candidate(
     for rule in policy.score_rules:
         factor_value = _get_candidate_value(candidate, rule.factor_id)
         rule_score = _evaluate_score_rule(factor_value, rule)
+        if rule_score is None:
+            continue  # No score for this rule; skip it
         weighted_score = rule_score * rule.weight
         scores[rule.rule_id] = round(weighted_score, 3)
         total += weighted_score
@@ -126,7 +128,7 @@ def _evaluate_constraint(
     )
 
 
-def _evaluate_score_rule(factor_value: FactorValue, rule: ScoreRule) -> float:
+def _evaluate_score_rule(factor_value: FactorValue, rule: ScoreRule) -> float | None:
     """Return the unweighted score for a score rule.
 
     Assumes ScoreRule.__post_init__ has already validated that exactly one
@@ -151,10 +153,7 @@ def _evaluate_score_rule(factor_value: FactorValue, rule: ScoreRule) -> float:
         for band in rule.numeric_bands:
             if band.min_inclusive <= numeric_value <= band.max_inclusive:
                 return band.score
-        raise ValueError(
-            f"Numeric value {numeric_value!r} for factor {rule.factor_id!r} "
-            f"did not match any band in rule {rule.rule_id!r}."
-        )
+        return None  # No band matched; score is undefined
 
     if rule.binary_scores:
         bool_value = _coerce_bool(raw_value)

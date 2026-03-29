@@ -31,8 +31,19 @@ def test_evaluates_categorical_scores_and_total() -> None:
     assert result.scores["interpretation:high"] == 1.0
 
 
-def test_raises_key_error_for_missing_factor() -> None:
-    """Missing factor values should raise KeyError."""
+def test_missing_score_factor_is_skipped_gracefully() -> None:
+    """Missing score rule factors are skipped — KeyError only raises for constraint rules."""
+    policy = make_policy(
+        constraint_rules=[],
+        score_rules=[
+            ScoreRule(
+                rule_id="speed_score",
+                factor_id="speed",
+                weight=0.5,
+                categorical_scores={"slow": 1.0, "fast": 3.0},
+            ),
+        ],
+    )
     candidate = make_candidate(
         factor_values={
             "speed": FactorValue(
@@ -43,8 +54,41 @@ def test_raises_key_error_for_missing_factor() -> None:
         }
     )
 
-    with pytest.raises(KeyError, match="cost"):
-        evaluate_candidate(candidate, make_policy())
+    result = evaluate_candidate(candidate, policy)
+
+    assert "speed_score" in result.scores
+    assert result.scores["total"] > 0.0
+
+
+def test_unmatched_numeric_band_is_skipped() -> None:
+    """Numeric values outside all bands produce no score entry."""
+    policy = make_policy(
+        constraint_rules=[],
+        score_rules=[
+            ScoreRule(
+                rule_id="cost_score",
+                factor_id="cost",
+                weight=0.5,
+                numeric_bands=(
+                    NumericBand(min_inclusive=100.0, max_inclusive=200.0, score=3.0),
+                ),
+            )
+        ],
+    )
+    candidate = make_candidate(
+        factor_values={
+            "cost": FactorValue(
+                factor_id="cost",
+                form=FactorForm.NUMERIC,
+                value=50.0,  # below all bands
+            )
+        }
+    )
+
+    result = evaluate_candidate(candidate, policy)
+
+    assert "cost_score" not in result.scores
+    assert result.scores["total"] == 0.0
 
 
 def test_raises_value_error_for_unknown_categorical_value() -> None:
@@ -180,51 +224,6 @@ def test_binary_score_rule_works() -> None:
     assert result.scores["total"] == 4.0
     assert result.scores["admissible"] == 1.0
     assert result.scores["interpretation:high"] == 1.0
-
-
-def test_raises_value_error_for_unmatched_numeric_band() -> None:
-    """Numeric values outside all bands should raise ValueError."""
-    policy = Policy(
-        factor_specs=[
-            FactorSpec(
-                factor_id="interconnection_years",
-                label="Interconnection Years",
-                form=FactorForm.NUMERIC,
-                unit="years",
-            )
-        ],
-        constraint_rules=[],
-        score_rules=[
-            ScoreRule(
-                rule_id="interconnection_speed",
-                factor_id="interconnection_years",
-                weight=1.0,
-                numeric_bands=(
-                    NumericBand(
-                        min_inclusive=0.0,
-                        max_inclusive=2.0,
-                        score=5.0,
-                        band="excellent",
-                    ),
-                ),
-            )
-        ],
-        interpretation={},
-        metadata={},
-    )
-
-    candidate = make_candidate(
-        factor_values={
-            "interconnection_years": FactorValue(
-                factor_id="interconnection_years",
-                form=FactorForm.NUMERIC,
-                value=5.0,
-            )
-        }
-    )
-
-    with pytest.raises(ValueError, match="did not match any band"):
-        evaluate_candidate(candidate, policy)
 
 
 def test_constraint_in_comparator_works_for_categorical_values() -> None:

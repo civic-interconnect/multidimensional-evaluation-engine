@@ -9,6 +9,14 @@ and this project adheres to **[Semantic Versioning](https://semver.org/spec/v2.0
 
 ---
 
+## [0.2.1] - 2026-03-28
+
+### Fixed
+
+- Score evaluation no longer raises for numeric band misses on inadmissible sites; unmatched values are skipped.
+
+---
+
 ## [0.2.0] - 2026-03-28
 
 ### Added
@@ -92,15 +100,16 @@ and this project adheres to **[Semantic Versioning](https://semver.org/spec/v2.0
 
 ```shell
 # if needed
-git tag -d v0.2.0
-git push origin :refs/tags/v0.2.0
+git tag -d v0.2.1
+git push origin :refs/tags/v0.2.1
 
 # tag release
-git tag v0.2.0 -m "0.2.0"
-git push origin v0.2.0
+git tag v0.2.1 -m "0.2.1"
+git push origin v0.2.1
 ```
 
-[Unreleased]: https://github.com/civic-interconnect/multidimensional-evaluation-engine/compare/v0.2.0...HEAD
+[Unreleased]: https://github.com/civic-interconnect/multidimensional-evaluation-engine/compare/v0.2.1...HEAD
+[0.2.1]: https://github.com/civic-interconnect/multidimensional-evaluation-engine/releases/tag/v0.2.1
 [0.2.0]: https://github.com/civic-interconnect/multidimensional-evaluation-engine/releases/tag/v0.2.0
 [0.1.1]: https://github.com/civic-interconnect/multidimensional-evaluation-engine/releases/tag/v0.1.1
 [0.1.0]: https://github.com/civic-interconnect/multidimensional-evaluation-engine/releases/tag/v0.1.0
