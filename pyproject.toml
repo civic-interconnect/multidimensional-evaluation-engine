@@ -91,10 +91,20 @@ include = ["src"]
 extraPaths = ["src"]
 pythonVersion = "3.14"
 reportMissingImports = "warning"
+reportMissingTypeStubs = "none"
 reportPrivateUsage = "none"
 useLibraryCodeForTypes = false
 venv = ".venv"
 venvPath = "."
+exclude = [
+    "**/node_modules/**",
+    "**/__pycache__/**",
+    "**/.git/**",
+    "**/.venv/**",
+    "**/data/**",
+    "**/artifacts/**",
+    "**/.*",
+]
 
 # === Pytest
 
