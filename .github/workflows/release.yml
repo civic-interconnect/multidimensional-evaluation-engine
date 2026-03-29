@@ -49,11 +49,11 @@ jobs:
           uv --version
           uv run python --version
 
-      - name: A5) Sync to install all dependencies
+      - name: A5) Sync to install all dependencies (frozen)
         # REQ: dev extra SHOULD include ruff/pyright/pytest/deptry (as used below).
         # REQ: docs extra MUST include project documentation toolchain.
         run: |
-          uv sync --extra dev --extra docs --upgrade
+          uv sync --extra dev --extra docs --frozen
 
       # === BASELINE CHECKS (VALIDATE ONLY) ===
 
