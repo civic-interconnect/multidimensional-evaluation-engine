@@ -120,6 +120,7 @@ uvx pre-commit run --all-files
 uv run validate-pyproject pyproject.toml
 uv run deptry .
 uv run bandit -c pyproject.toml -r src
+uv run pyright
 
 # Tests (after static checks pass)
 uv run pytest --cov=src --cov-report=term-missing

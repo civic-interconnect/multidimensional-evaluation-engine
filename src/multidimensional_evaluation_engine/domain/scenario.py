@@ -1,6 +1,7 @@
 """domain/scenario.py: Generic scenario models."""
 
 from dataclasses import dataclass, field
+from typing import cast
 
 
 @dataclass(frozen=True)
@@ -10,8 +11,12 @@ class Scenario:
     name: str
     description: str
     notes: str = ""
-    candidate_overrides: dict[str, str] = field(default_factory=dict)
-    policy_overrides: dict[str, str] = field(default_factory=dict)
+    candidate_overrides: dict[str, str] = field(
+        default_factory=lambda: cast(dict[str, str], {})
+    )
+    policy_overrides: dict[str, str] = field(
+        default_factory=lambda: cast(dict[str, str], {})
+    )
 
 
 @dataclass(frozen=True)
